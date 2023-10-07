@@ -1,0 +1,1 @@
+// schema for user details to be stored in database

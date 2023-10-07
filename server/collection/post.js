@@ -1,0 +1,1 @@
+// schema for posts to be stored in database
