@@ -28,8 +28,5 @@ const user_details_schema = new Schema({
   },
 });
 
-// Create a model based on the schema
-const user_details = mongoose.model("user_details", user_details_schema);
 
-// Export the model for use in other parts of your application
-module.exports = { user_details };
+module.exports = mongoose.models.user_details || mongoose.model("user_details", user_details_schema);

@@ -8,24 +8,34 @@ const {
   addPost,
 } = require("./utils");
 
-function processGetPost(req, res) {
-  let data = getPost(req, res);
+async function processGetPost(req, res) {
+  let utils = await getPost(req, res);
 
-  if (data.success === true) {
-    return res.send({ success: true, message: "Post Details" });
+  if (utils.success === true) {
+    return {
+      success: true,
+      message: utils.message,
+      status: 200,
+      data: utils.data,
+    };
   }
 
-  return res.status(500).send({ success: false, message: data.message });
+  return { success: false, status: 500, message: utils.message };
 }
 
-function processGetUserDetails(req, res) {
-  let data = getUserDetails(req, res);
+async function processGetUserDetails(req, res) {
+  let utils = await getUserDetails(req, res);
 
-  if (data.success === true) {
-    return res.send({ success: true, message: "User Details" });
+  if (utils.success === true) {
+    return {
+      success: true,
+      message: utils.message,
+      status: 200,
+      data: utils.data,
+    };
   }
 
-  return res.status().send({ success: false, message: data });
+  return { success: false, status: 500, message: utils.message };
 }
 
 function processLogin(req, res) {
@@ -48,14 +58,19 @@ function processRegistration(req, res) {
   return res.status().send({ success: false, message: data });
 }
 
-function processAddPost(req, res) {
-  let data = addPost(req, res);
+async function processAddPost(req, res) {
+  let utils = await addPost(req, res);
 
-  if (data.success === true) {
-    return res.send({ success: true, message: "Post Added Successfully" });
+  if (utils.success === true) {
+    return {
+      success: true,
+      message: utils.message,
+      status: 200,
+      data: utils.data,
+    };
   }
 
-  return res.status().send({ success: false, message: data });
+  return { success: false, status: 500, message: utils.message };
 }
 
 module.exports = {

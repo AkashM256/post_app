@@ -11,35 +11,46 @@ const {
   procesGetUserDetails,
   procesLogin,
   procesRegistration,
-  procesAddPost,
+  processAddPost,
+  processGetUserDetails,
 } = require("./process");
 
-function getPostController(req, res) {
-  //   let data = validateGetPost(req, res);
+async function getPostController(req, res) {
+  const validate = validateGetPost(req, res);
 
-  //   if (data.success === true) {
-  data = processGetPost(req, res);
+  if (validate.success === true) {
+    const process = await processGetPost(req, res);
 
-  if (data.success === true) {
-    return data;
+    if (process.success === true) {
+      return {
+        status: process.status,
+        message: process.message,
+        data: process.data,
+      };
+    }
+    return { status: process.status, message: process.message };
   }
-  //   }
 
-  return;
+  return { status: validate.status, message: validate.message };
 }
 
-function getUserDetailsController(req, res) {
-  let data = validateGetUserDetails(req, res);
+async function getUserDetailsController(req, res) {
+  const validate = validateGetUserDetails(req, res);
 
-  if (data.success === true) {
-    data = procesGetUserDetails(req, res);
+  if (validate.success === true) {
+    const process = await processGetUserDetails(req, res);
 
-    if (data.success === true) {
-      return data;
+    if (process.success === true) {
+      return {
+        status: process.status,
+        message: process.message,
+        data: process.data,
+      };
     }
+    return { status: process.status, message: process.message };
   }
 
-  return;
+  return { status: validate.status, message: validate.message };
 }
 
 function loginController(req, res) {
@@ -70,18 +81,23 @@ function registrationController(req, res) {
   return;
 }
 
-function addPostController(req, res) {
-  let data = validateAddPost(req, res);
+async function addPostController(req, res) {
+//   const validate = validateAddPost(req, res);
 
-  if (data.success === true) {
-    data = procesAddPost(req, res);
+//   if (validate.success === true) {
+    const process = await processAddPost(req, res);
 
-    if (data.success === true) {
-      return data;
+    if (process.success === true) {
+      return {
+        status: process.status,
+        message: process.message,
+        data: process.data,
+      };
     }
-  }
+//     return { status: process.status, message: process.message };
+//   }
 
-  return;
+  return { status: validate.status, message: validate.message };
 }
 
 module.exports = {

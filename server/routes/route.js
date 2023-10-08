@@ -13,9 +13,12 @@ module.exports = function Routes(router) {
     res.send("This is just for testing!!!");
   });
 
-  router.get("/getPost/", (req, res) => {
-    const data = getPostController(req, res);
-    res.send(data);
+  router.get("/getPost/", async (req, res) => {
+    const controller = await getPostController(req, res);
+
+    res
+      .status(controller.status)
+      .send({ message: controller.message, data: controller.data });
   });
 
   router.get("/getUserDetails", (req, res) => {
@@ -33,8 +36,14 @@ module.exports = function Routes(router) {
     res.send(data);
   });
 
-  router.post("/addPost", (req, res) => {
-    const data = addPostController(req, res);
-    res.send(data);
+  router.post("/addPost", async(req, res) => {
+    
+    console.log(req)
+    
+    // const controller = await addPostController(req, res);
+
+    res
+      .status(controller.status)
+      .send({ message: controller.message, data: controller.data });
   });
 };

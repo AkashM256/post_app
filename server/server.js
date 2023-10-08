@@ -9,7 +9,7 @@ const Routes = require("./routes/route");
 const app = express();
 
 // Routes(app,db);
-Routes(app, db);
+Routes(app);
 
 app.listen(config.server_port, () => {
   console.log(`Server is running on port ${config.server_port}`);

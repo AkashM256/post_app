@@ -2,30 +2,26 @@
 
 function validateGetPost(req, res) {
   if (req.query.hasOwnProperty("user_id") && req.query.user_id !== undefined) {
-    const userID = req.query.user_id;
+    // const userID = req.query.user_id;
 
-    if (!isNaN(userID) && userID != 0) {
-      return res.json({ success: true });
-    }
+    // if (!isNaN(userID) && userID != 0) {
+    return { success: true };
+    // }
   }
 
-  return res
-    .status(400)
-    .send({ success: false, message: "Invalid Parameters" });
+  return { success: false, status: 400, message: "Invalid Parameters" };
 }
 
 function validateGetUserDetails(req, res) {
-  if (
-    req.hasOwnProperty("user_id") &&
-    req.data.user_id !== undefined &&
-    req.data.user_id !== 0
-  ) {
-    return res.send({ success: true });
+  if (req.query.hasOwnProperty("user_id") && req.query.user_id !== undefined) {
+    // const userID = req.query.user_id;
+
+    // if (!isNaN(userID) && userID != 0) {
+    return { success: true };
+    // }
   }
 
-  return res
-    .status(400)
-    .send({ success: false, message: "Invalid Parameters" });
+  return { success: false, status: 400, message: "Invalid Parameters" };
 }
 
 function validateLogin(req, res) {
@@ -59,9 +55,10 @@ function validateRegistration(req, res) {
 }
 
 function validateAddPost(req, res) {
-  req.hasOwnProperty("title", "description") &&
-    !req.data.title in (undefined, "") &&
-    !req.data.description in (undefined, "");
+  req.body.hasOwnProperty("user_id", "title", "description") &&
+    !req.body.user_id in (undefined, "") &&
+    !req.body.title in (undefined, "") &&
+    !req.body.description in (undefined, "");
 
   return res
     .status(400)
