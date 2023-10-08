@@ -23,6 +23,9 @@ function validateGetPost(req, res) {
 }
 
 function validateGetUserDetails(req, res) {
+  
+  console.log(req.headers)
+  
   try {
     if (
       req.headers.authorization &&

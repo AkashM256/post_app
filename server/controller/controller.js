@@ -53,48 +53,10 @@ async function getUserDetailsController(req, res) {
 }
 
 async function loginController(req, res) {
-    const validate = validateLogin(req, res);
-
-    if (validate.success === true) {
-      const process = await processLogin(req, res);
-  
-      if (process.success === true) {
-        return {
-          status: process.status,
-          message: process.message,
-          data: process.data,
-        };
-      }
-      return { status: process.status, message: process.message };
-    }
-  
-    return { status: validate.status, message: validate.message };
-}
-
-async function registrationController(req, res) {
-    const validate = validateRegistration(req, res);
-
-    if (validate.success === true) {
-      const process = await processRegistration(req, res);
-  
-      if (process.success === true) {
-        return {
-          status: process.status,
-          message: process.message,
-          data: process.data,
-        };
-      }
-      return { status: process.status, message: process.message };
-    }
-  
-    return { status: validate.status, message: validate.message };
-}
-
-async function addPostController(req, res) {
-  const validate = validateAddPost(req, res);
+  const validate = validateLogin(req, res);
 
   if (validate.success === true) {
-    const process = await processAddPost(req, res);
+    const process = await processLogin(req, res);
 
     if (process.success === true) {
       return {
@@ -107,6 +69,63 @@ async function addPostController(req, res) {
   }
 
   return { status: validate.status, message: validate.message };
+
+}
+
+async function registrationController(req, res) {
+  const validate = validateRegistration(req, res);
+
+  if (validate.success === true) {
+    const process = await processRegistration(req, res);
+
+    if (process.success === true) {
+      return {
+        success: process.success,
+        status: process.status,
+        message: process.message,
+        data: process.data,
+      };
+    }
+    return {
+      success: process.success,
+      status: process.status,
+      message: process.message,
+    };
+  }
+
+  return {
+    success: validate.success,
+    status: validate.status,
+    message: validate.message,
+  };
+}
+
+async function addPostController(req, res) {
+  const validate = validateAddPost(req, res);
+
+  if (validate.success === true) {
+    const process = await processAddPost(req, res);
+
+    if (process.success === true) {
+      return {
+        success: process.success,
+        status: process.status,
+        message: process.message,
+        data: process.data,
+      };
+    }
+    return {
+      success: process.success,
+      status: process.status,
+      message: process.message,
+    };
+  }
+
+  return {
+    success: validate.success,
+    status: validate.status,
+    message: validate.message,
+  };
 }
 
 module.exports = {

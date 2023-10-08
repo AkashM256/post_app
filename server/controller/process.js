@@ -54,7 +54,7 @@ async function processLogin(req, res) {
     const userID = utils.data._id;
 
     const token = jwt.sign({ userID }, config.jwt_secret_key, {
-      expiresIn: "1h",
+      expiresIn: "365d",
     });
 
     return {
@@ -85,7 +85,7 @@ async function processRegistration(req, res) {
     const userID = utils.data._id;
 
     const token = jwt.sign({ userID }, config.jwt_secret_key, {
-      expiresIn: "1h",
+      expiresIn: "365d",
     });
 
     return {

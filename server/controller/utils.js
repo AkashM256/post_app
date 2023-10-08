@@ -23,9 +23,9 @@ async function getPost(req, res) {
 async function getUserDetails(req, res) {
   try {
     const data = await userDetailsModel.find(
-      { _id: "6522994a370bbf870d4e1f25" },
+      { _id: req.user_id },
       // req.user_id
-      { password: 0 }
+      { password: 0,salt:0 }
     );
 
     if (data.length === 0) {
