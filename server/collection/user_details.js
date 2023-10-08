@@ -20,13 +20,19 @@ const user_details_schema = new Schema({
     type: String,
     required: true,
   },
+  salt: {
+    type: String,
+    required: true,
+  },
   phone: {
     type: String,
+    unique: true,
   },
   image: {
     type: String,
   },
 });
 
-
-module.exports = mongoose.models.user_details || mongoose.model("user_details", user_details_schema);
+module.exports =
+  mongoose.models.user_details ||
+  mongoose.model("user_details", user_details_schema);

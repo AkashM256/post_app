@@ -7,6 +7,7 @@ module.exports = {
     db_port: 27017,
     db_host: "mongodb://127.0.0.1/",
     db_name: "assignment",
+    jwt_secret_key:"0uqY6HDGpFEBp2EuoMq8go9GBIIceCih"
 }
 
 

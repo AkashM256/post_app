@@ -8,11 +8,10 @@ const {
 
 const {
   processGetPost,
-  procesGetUserDetails,
-  procesLogin,
-  procesRegistration,
-  processAddPost,
   processGetUserDetails,
+  processLogin,
+  processRegistration,
+  processAddPost,
 } = require("./process");
 
 async function getPostController(req, res) {
@@ -53,38 +52,48 @@ async function getUserDetailsController(req, res) {
   return { status: validate.status, message: validate.message };
 }
 
-function loginController(req, res) {
-  let data = validateLogin(req, res);
+async function loginController(req, res) {
+    const validate = validateLogin(req, res);
 
-  if (data.success === true) {
-    data = procesLogin(req, res);
-
-    if (data.success === true) {
-      return data;
+    if (validate.success === true) {
+      const process = await processLogin(req, res);
+  
+      if (process.success === true) {
+        return {
+          status: process.status,
+          message: process.message,
+          data: process.data,
+        };
+      }
+      return { status: process.status, message: process.message };
     }
-  }
-
-  return;
+  
+    return { status: validate.status, message: validate.message };
 }
 
-function registrationController(req, res) {
-  let data = validateRegistration(req, res);
+async function registrationController(req, res) {
+    const validate = validateRegistration(req, res);
 
-  if (data.success === true) {
-    data = procesRegistration(req, res);
-
-    if (data.success === true) {
-      return data;
+    if (validate.success === true) {
+      const process = await processRegistration(req, res);
+  
+      if (process.success === true) {
+        return {
+          status: process.status,
+          message: process.message,
+          data: process.data,
+        };
+      }
+      return { status: process.status, message: process.message };
     }
-  }
-
-  return;
+  
+    return { status: validate.status, message: validate.message };
 }
 
 async function addPostController(req, res) {
-//   const validate = validateAddPost(req, res);
+  const validate = validateAddPost(req, res);
 
-//   if (validate.success === true) {
+  if (validate.success === true) {
     const process = await processAddPost(req, res);
 
     if (process.success === true) {
@@ -94,8 +103,8 @@ async function addPostController(req, res) {
         data: process.data,
       };
     }
-//     return { status: process.status, message: process.message };
-//   }
+    return { status: process.status, message: process.message };
+  }
 
   return { status: validate.status, message: validate.message };
 }

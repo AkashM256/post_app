@@ -5,11 +5,13 @@ const postModel = require("../collection/post");
 const userDetailsModel = require("../collection/user_details");
 
 async function getPost(req, res) {
+  console.log(req.userID);
+
   try {
-    const data = await postModel.find({ user_id: req.query.user_id });
+    const data = await postModel.find({ user_id: req.user_id }, { user_id: 0 });
 
     if (data.length === 0) {
-      return { success: true, message: "Data not found for ID" };
+      return { success: true, message: "No Posts of this user" };
     }
 
     return { success: true, data: data, message: "Post Details" };
@@ -20,10 +22,14 @@ async function getPost(req, res) {
 
 async function getUserDetails(req, res) {
   try {
-    const data = await userDetailsModel.find({ user_id: req.query.user_id });
+    const data = await userDetailsModel.find(
+      { _id: "6522994a370bbf870d4e1f25" },
+      // req.user_id
+      { password: 0 }
+    );
 
     if (data.length === 0) {
-      return { success: true, message: "Data not found for ID" };
+      return { success: false, status: 404, message: "User not found" };
     }
 
     return { success: true, data: data, message: "User Details" };
@@ -33,39 +39,61 @@ async function getUserDetails(req, res) {
 }
 
 async function login(req, res) {
-
-
-
-
-  return;
-}
-
-async function registration(req, res) {
   try {
-    const result = await collection.insertOne(document);
+    const data = await userDetailsModel.findOne(
+      { email: req.body.email },
+      { phone: 0 }
+    );
 
+    if (data.length === 0) {
+      return { success: true, message: "Email not found" };
+    }
 
-    return { success: true, data: data, message: "User Details" };
+    return { success: true, data: data };
   } catch (error) {
     return { success: false, message: "Internal server error" };
   }
 }
 
+async function registration(req, res) {
+  try {
+    const data = await userDetailsModel.create(req.body);
+
+    return {
+      success: true,
+      data: data._id,
+      message: "Registration Successful",
+    };
+  } catch (error) {
+    console.log(error);
+
+    if (error.code === 11000 && error.keyPattern.hasOwnProperty("email")) {
+      return { success: false, message: "Duplicate Email ID" };
+    } else if (
+      error.code === 11000 &&
+      error.keyPattern.hasOwnProperty("phone")
+    ) {
+      return { success: false, message: "Duplicate Phone Number" };
+    }
+
+    return { success: false, message: "Internal server error" };
+  }
+}
+
 async function addPost(req, res) {
-  
-  console.log(req)
-  
-  
-  // try {
-  //   const data = await postModel.create(req.body);
-    
-  //   console.log('Document inserted:', data);
+  console.log(req.body);
 
+  try {
+    const data = await postModel.create(req.body);
 
-  //   return { success: true, data: data, message: "Post Added Successfully" };
-  // } catch (error) {
-  //   return { success: false, message: "Internal server error" };
-  // }
+    return {
+      success: true,
+      data: data._id,
+      message: "Post Added Successfully",
+    };
+  } catch (error) {
+    return { success: false, message: "Internal server error" };
+  }
 }
 
 module.exports = { getPost, getUserDetails, login, registration, addPost };
